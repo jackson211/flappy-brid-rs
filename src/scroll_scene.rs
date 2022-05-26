@@ -1,8 +1,8 @@
-use crate::components::Velocity;
-use crate::{GameTextures, WinSize, PIPE_SIZE};
-use bevy::core::{FixedTimestep, Timer};
-use bevy::{log, prelude::*};
-use rand::{thread_rng, Rng};
+use crate::components::*;
+use crate::constants::*;
+use crate::{GameTextures, WinSize};
+use bevy::core::FixedTimestep;
+use bevy::prelude::*;
 
 #[derive(Component)]
 pub struct ScrollScene;
@@ -49,14 +49,13 @@ fn spawn_scroll_scene(
     let x_pos = (win_size.w - PIPE_SIZE.0) * 0.5;
     let y_pos = (-win_size.h + PIPE_SIZE.1) * 0.5;
 
-    let scroll_size = (win_size.w * 2. / 50.0) as usize;
-    if scroll_scene_state.size <= scroll_size {
+    if scroll_scene_state.size <= SCROLL_SIZE {
         commands
             .spawn_bundle(SpriteBundle {
                 texture: game_textures.pipe.clone(),
                 transform: Transform {
                     translation: Vec3::new(x_pos, y_pos, 0.),
-                    // scale: Vec3::new(SPRITE_SCALE, SPRITE_SCALE, 1.),
+                    // scale: Vec3::new(1., 1., 1.),
                     ..Default::default()
                 },
                 ..Default::default()
@@ -66,10 +65,6 @@ fn spawn_scroll_scene(
         scroll_scene_state.spawned();
     }
 }
-
-// region:   --- Game Constants
-const TIME_STEP: f32 = 1. / 60.;
-const BASE_SPEED: f32 = 100.;
 
 fn scroll_scene_movement(
     mut commands: Commands,

@@ -1,22 +1,11 @@
 mod components;
+mod constants;
 mod scroll_scene;
-use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
+
 use bevy::prelude::*;
+use components::*;
+use constants::*;
 use scroll_scene::*;
-
-const PIPE_SPRITE: &str = "pipe.png";
-const PIPE_SIZE: (f32, f32) = (32., 128.);
-
-const WIN_WIDTH: f32 = 600.0;
-const WIN_HEIGHT: f32 = 800.0;
-
-struct WinSize {
-    w: f32,
-    h: f32,
-}
-struct GameTextures {
-    pipe: Handle<Image>,
-}
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>, mut windows: ResMut<Windows>) {
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
@@ -41,12 +30,10 @@ fn main() {
         .insert_resource(WindowDescriptor {
             width: WIN_WIDTH,
             height: WIN_HEIGHT,
-            title: String::from("Map Example"),
+            title: String::from("Flippy Bird rs"),
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
-        .add_plugin(LogDiagnosticsPlugin::default())
-        .add_plugin(FrameTimeDiagnosticsPlugin::default())
         .add_plugin(ScrollScenePlugin)
         .add_startup_system(setup)
         .run();
