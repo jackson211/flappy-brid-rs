@@ -21,6 +21,9 @@ impl ScrollSceneState {
     pub fn spawned(&mut self) {
         self.size += 1;
     }
+    pub fn despawned(&mut self) {
+        self.size -= 1;
+    }
 }
 
 pub struct ScrollScenePlugin;
@@ -36,7 +39,6 @@ impl Plugin for ScrollScenePlugin {
             .add_system(scroll_scene_movement);
     }
 }
-const SCROLL_SIZE: usize = 3;
 
 fn spawn_scroll_scene(
     mut commands: Commands,
@@ -44,10 +46,11 @@ fn spawn_scroll_scene(
     game_textures: Res<GameTextures>,
     win_size: Res<WinSize>,
 ) {
-    let x_pos = (-win_size.w + PIPE_SIZE.0) * 0.5;
+    let x_pos = (win_size.w - PIPE_SIZE.0) * 0.5;
     let y_pos = (-win_size.h + PIPE_SIZE.1) * 0.5;
 
-    if scroll_scene_state.size <= SCROLL_SIZE {
+    let scroll_size = (win_size.w * 2. / 50.0) as usize;
+    if scroll_scene_state.size <= scroll_size {
         commands
             .spawn_bundle(SpriteBundle {
                 texture: game_textures.pipe.clone(),
@@ -60,7 +63,7 @@ fn spawn_scroll_scene(
             })
             .insert(ScrollScene)
             .insert(Velocity { x: 1., y: 0. });
-        scroll_scene_state.size += 1;
+        scroll_scene_state.spawned();
     }
 }
 
@@ -70,12 +73,13 @@ const BASE_SPEED: f32 = 100.;
 
 fn scroll_scene_movement(
     mut commands: Commands,
+    mut scroll_scene_state: ResMut<ScrollSceneState>,
     win_size: Res<WinSize>,
     mut query: Query<(Entity, &Velocity, &mut Transform), With<ScrollScene>>,
 ) {
     for (entity, velocity, mut transform) in query.iter_mut() {
         let translation = &mut transform.translation;
-        translation.x += velocity.x * TIME_STEP * BASE_SPEED;
+        translation.x -= velocity.x * TIME_STEP * BASE_SPEED;
         let h_bound = win_size.h * 0.5;
         let w_bound = win_size.w * 0.5;
 
@@ -85,6 +89,7 @@ fn scroll_scene_movement(
             || translation.x < -w_bound
         {
             commands.entity(entity).despawn();
+            scroll_scene_state.despawned();
         }
     }
 }
