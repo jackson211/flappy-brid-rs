@@ -3,12 +3,6 @@ use bevy::{
     sprite::TextureAtlas,
 };
 
-#[derive(Component)]
-pub struct Velocity {
-    pub x: f32,
-    pub y: f32,
-}
-
 pub struct WinSize {
     pub w: f32,
     pub h: f32,

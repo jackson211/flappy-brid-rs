@@ -1,6 +1,7 @@
 mod brid;
 mod components;
 mod constants;
+mod physics;
 mod scroll_scene;
 
 use bevy::prelude::*;
