@@ -1,4 +1,7 @@
-use bevy::prelude::{Component, Handle, Image};
+use bevy::{
+    prelude::{Component, Handle, Image},
+    sprite::TextureAtlas,
+};
 
 #[derive(Component)]
 pub struct Velocity {
@@ -13,4 +16,5 @@ pub struct WinSize {
 
 pub struct GameTextures {
     pub pipe: Handle<Image>,
+    pub brid: Handle<TextureAtlas>,
 }

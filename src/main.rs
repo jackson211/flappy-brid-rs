@@ -1,13 +1,20 @@
+mod brid;
 mod components;
 mod constants;
 mod scroll_scene;
 
 use bevy::prelude::*;
+use brid::*;
 use components::*;
 use constants::*;
 use scroll_scene::*;
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>, mut windows: ResMut<Windows>) {
+fn setup(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut windows: ResMut<Windows>,
+    mut texture_atlases: ResMut<Assets<TextureAtlas>>,
+) {
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 
     // add window size to resource
@@ -19,8 +26,12 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>, mut windows: Re
     commands.insert_resource(win_size);
 
     // load all game texture
+    let texture_handle = asset_server.load(BIRD_SPRITE);
+    let texture_atlas = TextureAtlas::from_grid(texture_handle, Vec2::new(24.0, 16.0), 4, 1);
+    let brid = texture_atlases.add(texture_atlas);
     let game_textures = GameTextures {
         pipe: asset_server.load(PIPE_SPRITE),
+        brid,
     };
     commands.insert_resource(game_textures);
 }
@@ -34,6 +45,7 @@ fn main() {
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
+        .add_plugin(BridPlugin)
         .add_plugin(ScrollScenePlugin)
         .add_startup_system(setup)
         .run();

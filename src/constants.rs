@@ -4,6 +4,8 @@ pub const BASE_SPEED: f32 = 100.;
 
 pub const PIPE_SPRITE: &str = "pipe.png";
 pub const PIPE_SIZE: (f32, f32) = (32., 256.);
+pub const BIRD_SPRITE: &str = "bridsheet.png";
+pub const BIRD_SPRITE_SIZE: usize = 4;
 
 pub const WIN_WIDTH: f32 = 600.0;
 pub const WIN_HEIGHT: f32 = 800.0;
