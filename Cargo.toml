@@ -9,6 +9,7 @@ license = "MIT OR Apache-2.0"
 [dependencies]
 bevy = "0.7"
 bevy_ecs_tilemap = "0.6.0"
+rand = "0.8.5"
 
 [workspace]
 resolver = "2"
