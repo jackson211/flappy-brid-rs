@@ -1,4 +1,4 @@
-use bevy::{core::FixedTimestep, prelude::*};
+use bevy::prelude::*;
 
 #[derive(Component)]
 struct Score;
@@ -26,9 +26,7 @@ fn spawn_score(mut commands: Commands, asset_server: Res<AssetServer>) {
                 align_self: AlignSelf::FlexEnd,
                 ..default()
             },
-            // Use `Text` directly
             text: Text {
-                // Construct a `Vec` of `TextSection`s
                 sections: vec![
                     TextSection {
                         value: "Score:".to_string(),
@@ -58,5 +56,6 @@ fn score_update_system(time: Res<Time>, mut query: Query<&mut Text, With<Score>>
     for mut text in query.iter_mut() {
         // Update the value of the second section
         text.sections[1].value = format!("{}", time.delta_seconds());
+        println!("{}", text.sections[0].value);
     }
 }

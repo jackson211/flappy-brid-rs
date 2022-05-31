@@ -5,7 +5,7 @@ mod physics;
 mod pipe;
 mod score;
 
-use bevy::{prelude::*, text::Text2dBounds};
+use bevy::{prelude::*};
 use brid::*;
 use components::*;
 use constants::*;
