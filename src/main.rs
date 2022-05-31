@@ -2,13 +2,16 @@ mod brid;
 mod components;
 mod constants;
 mod physics;
-mod scroll_scene;
+mod pipe;
+mod score;
 
-use bevy::prelude::*;
+use bevy::{prelude::*, text::Text2dBounds};
 use brid::*;
 use components::*;
 use constants::*;
-use scroll_scene::*;
+use physics::*;
+use pipe::*;
+use score::*;
 
 fn setup(
     mut commands: Commands,
@@ -35,6 +38,8 @@ fn setup(
         brid,
     };
     commands.insert_resource(game_textures);
+
+    // spawn_score(commands, asset_server);
 }
 
 fn main() {
@@ -47,7 +52,9 @@ fn main() {
         })
         .add_plugins(DefaultPlugins)
         .add_plugin(BridPlugin)
-        .add_plugin(ScrollScenePlugin)
+        .add_plugin(PipePlugin)
+        .add_plugin(ScorePlugin)
         .add_startup_system(setup)
+        .add_system(collision_system)
         .run();
 }

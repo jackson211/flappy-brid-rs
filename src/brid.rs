@@ -1,6 +1,8 @@
 use crate::{
-    components::{GameTextures, WinSize},
-    constants::{BASE_SPEED, BIRD_SPRITE_SIZE, JUMP_FORCE, TIME_STEP},
+    components::{GameTextures, SpriteSize, WinSize},
+    constants::{
+        BASE_SPEED, BIRD_SPRITE_NUMBER, BIRD_SPRITE_SIZE, BRID_SCALE, JUMP_FORCE, TIME_STEP,
+    },
     physics::Velocity,
 };
 use bevy::prelude::*;
@@ -44,14 +46,15 @@ fn spawn_brid(
                 texture_atlas: game_textures.brid.clone(),
                 transform: Transform {
                     translation: Vec3::new(0., 0., 0.),
-                    scale: Vec3::new(2., 2., 1.),
+                    scale: Vec3::new(BRID_SCALE, BRID_SCALE, 1.),
                     ..Default::default()
                 },
                 ..Default::default()
             })
             .insert(Brid)
             .insert(BridAnimationTimer(Timer::from_seconds(0.2, true)))
-            .insert(Velocity { x: 0., y: 1. });
+            .insert(Velocity { x: 0., y: 1. })
+            .insert(SpriteSize::from(BIRD_SPRITE_SIZE));
         brid_state.on = true;
     }
 }
@@ -63,7 +66,7 @@ fn brid_animation(
     query.iter_mut().for_each(|(mut timer, mut sprite)| {
         timer.tick(time.delta());
         if timer.just_finished() {
-            sprite.index = (sprite.index + 1) % BIRD_SPRITE_SIZE;
+            sprite.index = (sprite.index + 1) % BIRD_SPRITE_NUMBER;
         }
     });
 }
