@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::{brid::BridState, constants::FONT_PATH};
+
 #[derive(Component)]
 struct Score;
 
@@ -17,7 +19,7 @@ impl Plugin for ScorePlugin {
 }
 
 fn spawn_score(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let font = asset_server.load("fonts/Noto Mono for Powerline.ttf");
+    let font = asset_server.load(FONT_PATH);
     commands.spawn_bundle(UiCameraBundle::default());
 
     commands
@@ -52,10 +54,9 @@ fn spawn_score(mut commands: Commands, asset_server: Res<AssetServer>) {
         .insert(Score);
 }
 
-fn score_update_system(time: Res<Time>, mut query: Query<&mut Text, With<Score>>) {
+fn score_update_system(brid_state: Res<BridState>, mut query: Query<&mut Text, With<Score>>) {
     for mut text in query.iter_mut() {
         // Update the value of the second section
-        text.sections[1].value = format!("{}", time.delta_seconds());
-        println!("{}", text.sections[0].value);
+        text.sections[1].value = format!("{}", brid_state.score);
     }
 }

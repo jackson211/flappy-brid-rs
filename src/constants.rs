@@ -22,3 +22,6 @@ pub const PIPE_NUMBER: usize = (WIN_WIDTH * 4. / SCOLL_SPACE) as usize; // scree
 
 // Brid Physics
 pub const JUMP_FORCE: f32 = 3.0;
+
+// Font
+pub const FONT_PATH: &str = "fonts/Noto Mono for Powerline.ttf";

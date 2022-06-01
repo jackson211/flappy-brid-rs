@@ -8,7 +8,15 @@ use bevy::sprite::Anchor;
 use rand::prelude::*;
 
 #[derive(Component)]
-pub struct Pipe;
+pub struct Pipe {
+    pub pass: bool,
+}
+
+impl Default for Pipe {
+    fn default() -> Self {
+        Self { pass: false }
+    }
+}
 
 struct PipeState {
     size: usize,
@@ -69,7 +77,7 @@ fn spawn_pipe(
                 },
                 ..Default::default()
             })
-            .insert(Pipe)
+            .insert(Pipe::default())
             .insert(Velocity { x: 1., y: 0. })
             .insert(SpriteSize::from(PIPE_SIZE));
         pipe_state.spawned();
@@ -90,7 +98,7 @@ fn spawn_pipe(
                 },
                 ..Default::default()
             })
-            .insert(Pipe)
+            .insert(Pipe::default())
             .insert(Velocity { x: 1., y: 0. })
             .insert(SpriteSize::from(PIPE_SIZE));
         pipe_state.spawned();

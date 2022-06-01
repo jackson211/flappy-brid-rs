@@ -12,11 +12,22 @@ pub struct Brid;
 
 pub struct BridState {
     pub on: bool,
+    pub score: f32,
 }
 
 impl Default for BridState {
     fn default() -> Self {
-        Self { on: false }
+        Self {
+            on: false,
+            score: 0.0,
+        }
+    }
+}
+
+impl BridState {
+    pub fn reset(&mut self) {
+        self.on = false;
+        self.score = 0.0;
     }
 }
 
@@ -90,7 +101,7 @@ fn brid_movement(
             || translation.x < -w_bound
         {
             commands.entity(entity).despawn();
-            bridstate.on = false;
+            bridstate.reset();
         }
     }
 }
