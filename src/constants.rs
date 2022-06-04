@@ -21,7 +21,7 @@ pub const BETWEEN_SCOLL_SPACE: f32 = 80.0;
 pub const PIPE_NUMBER: usize = (WIN_WIDTH * 4. / SCOLL_SPACE) as usize; // screen size: win_width * 2, times 2 scroll component on top and bottom
 
 // Brid Physics
-pub const JUMP_FORCE: f32 = 3.0;
+pub const JUMP_FORCE: f32 = 5.0;
 
 // Font
 pub const FONT_PATH: &str = "fonts/Noto Mono for Powerline.ttf";

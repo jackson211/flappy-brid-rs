@@ -2,7 +2,6 @@ use crate::components::SpriteSize;
 use crate::constants::*;
 use crate::physics::Velocity;
 use crate::{GameTextures, WinSize};
-use bevy::core::FixedTimestep;
 use bevy::prelude::*;
 use bevy::sprite::Anchor;
 use rand::prelude::*;
@@ -18,7 +17,7 @@ impl Default for Pipe {
     }
 }
 
-struct PipeState {
+pub struct PipeState {
     size: usize,
 }
 
@@ -37,21 +36,7 @@ impl PipeState {
     }
 }
 
-pub struct PipePlugin;
-
-impl Plugin for PipePlugin {
-    fn build(&self, app: &mut App) {
-        app.insert_resource(PipeState::default())
-            .add_system_set(
-                SystemSet::new()
-                    .with_run_criteria(FixedTimestep::step(1.0))
-                    .with_system(spawn_pipe),
-            )
-            .add_system(pipe_movement);
-    }
-}
-
-fn spawn_pipe(
+pub fn spawn_pipe(
     mut commands: Commands,
     mut pipe_state: ResMut<PipeState>,
     game_textures: Res<GameTextures>,
@@ -105,7 +90,7 @@ fn spawn_pipe(
     }
 }
 
-fn pipe_movement(
+pub fn pipe_movement(
     mut commands: Commands,
     mut pipe_state: ResMut<PipeState>,
     win_size: Res<WinSize>,

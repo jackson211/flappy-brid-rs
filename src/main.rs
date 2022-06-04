@@ -3,14 +3,14 @@ mod components;
 mod constants;
 mod physics;
 mod pipe;
+mod scene;
 mod score;
 
-use bevy::{prelude::*};
-use brid::*;
+use bevy::prelude::*;
 use components::*;
 use constants::*;
 use physics::*;
-use pipe::*;
+use scene::*;
 use score::*;
 
 fn setup(
@@ -51,9 +51,12 @@ fn main() {
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
-        .add_plugin(BridPlugin)
-        .add_plugin(PipePlugin)
+        .add_plugin(ScenePlugin {
+            running_state: AppState::InGame,
+        })
         .add_plugin(ScorePlugin)
+        // add the app state type
+        .add_state(AppState::MainMenu)
         .add_startup_system(setup)
         .add_system(collision_system)
         .run();

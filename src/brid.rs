@@ -32,21 +32,9 @@ impl BridState {
 }
 
 #[derive(Component, Deref, DerefMut)]
-struct BridAnimationTimer(Timer);
+pub struct BridAnimationTimer(Timer);
 
-pub struct BridPlugin;
-
-impl Plugin for BridPlugin {
-    fn build(&self, app: &mut App) {
-        app.insert_resource(BridState::default())
-            .add_system_set(SystemSet::new().with_system(spawn_brid))
-            .add_system(brid_animation)
-            .add_system(brid_movement)
-            .add_system(brid_keyboard_event_system);
-    }
-}
-
-fn spawn_brid(
+pub fn spawn_brid(
     mut commands: Commands,
     game_textures: Res<GameTextures>,
     mut brid_state: ResMut<BridState>,
@@ -70,7 +58,7 @@ fn spawn_brid(
     }
 }
 
-fn brid_animation(
+pub fn brid_animation(
     time: Res<Time>,
     mut query: Query<(&mut BridAnimationTimer, &mut TextureAtlasSprite), With<Brid>>,
 ) {
@@ -82,7 +70,7 @@ fn brid_animation(
     });
 }
 
-fn brid_movement(
+pub fn brid_movement(
     mut commands: Commands,
     mut bridstate: ResMut<BridState>,
     win_size: Res<WinSize>,
@@ -106,7 +94,7 @@ fn brid_movement(
     }
 }
 
-fn brid_keyboard_event_system(
+pub fn brid_keyboard_event_system(
     kb: Res<Input<KeyCode>>,
     mut query: Query<(&mut Velocity, &mut Transform), With<Brid>>,
 ) {
